@@ -3,7 +3,10 @@
 //No PFS I usávamos CommonJS → const express = require('express');
 //Diferença: ESM (import/export) é o padrão moderno do JS, enquanto CommonJS (require/module.exports) é o padrão antigo do Node.
 import express from 'express';
+import usuarioRouter from './routes/usuarioRoute';
 const server = express();
+
+server.use("/usuario", usuarioRouter);
 
 server.listen(5000, function() {
     console.log("Backend em funcionamento!");
