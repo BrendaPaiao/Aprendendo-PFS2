@@ -1,13 +1,12 @@
-//OBS: Aqui usamos "import express from 'express';" porque o projeto está no modo ESM.
-//Isso é definido em package.json com "type": "module".
-//No PFS I usávamos CommonJS → const express = require('express');
-//Diferença: ESM (import/export) é o padrão moderno do JS, enquanto CommonJS (require/module.exports) é o padrão antigo do Node.
+// OBS: Aqui usamos "import express from 'express';" porque o projeto está no modo ESM.
+// Isso é definido em package.json com "type": "module".
+// No PFS I usávamos CommonJS → const express = require('express');
+// Diferença: ESM (import/export) é o padrão moderno do JS, enquanto CommonJS (require/module.exports) é o padrão antigo do Node.
 import express from 'express';
 import usuarioRouter from './routes/usuarioRoute';
 // Importa o middleware de UI do Swagger
 import swaggerUi from 'swagger-ui-express';
-// Como o projeto está em ESM, usamos createRequire para poder usar "require" aqui
-// (isso permite carregar arquivos/formatos que são mais fáceis via require, como JSON sem assert)
+// Como o projeto está em ESM, usamos createRequire para poder usar "require" aqui (isso permite carregar arquivos/formatos que são mais fáceis via require, como JSON sem assert)
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 // Carrega o JSON gerado do Swagger (ex.: por swagger-autogen)
