@@ -33,15 +33,9 @@ export default class UsuarioRepository {
         if(rows.length > 0) {
             // Pega a primeira linha do resultado
             const row = rows[0];
-            // Cria um objeto Usuario a partir dos dados retornados do banco
-            // Repare que também cria um objeto Perfil, passando o per_id
-            const usuario = new Usuario(
-                row["usu_id"], 
-                row["usu_nome"], 
-                row["usu_email"], 
-                row["usu_senha"], 
-                row["usu_ativo"], 
-                new Perfil(row["per_id"]));
+
+           // Converte a linha retornada do banco (row) em um objeto Usuario completo, sem precisar ficar escrevendo várias vezes e repetindo código, função por função.
+            const usuario = this.toMap(row);
 
             // Retorna o objeto Usuario montado
             return usuario;
@@ -66,13 +60,7 @@ export default class UsuarioRepository {
             const row = rows[i];
 
             // Para cada linha, cria um novo objeto Usuario e também instancia um Perfil a partir da chave estrangeira "per_id"
-            usuarios.push(
-                new Usuario(row["usu_id"], 
-                row["usu_nome"], 
-                row["usu_email"], 
-                row["usu_senha"], 
-                row["usu_ativo"], 
-                new Perfil(row["per_id"])));
+            usuarios.push(this.toMap(row));
         }
 
         // Retorna a lista de objetos Usuario já convertidos
@@ -96,15 +84,63 @@ export default class UsuarioRepository {
         return result;
     }
 
-    deletar(id) {
-        usuarios = usuarios.filter(x=> x.id != id);
+    // Exclui um usuário do banco a partir do id informado
+    async deletar(id) {
+        // Comando SQL para remover um usuário com base no seu id
+        const sql = "delete from tb_usuario where usu_id = ?";
+        const params = [id];
+
+        // ExecutaComandoNonQuery retorna true se alguma linha foi afetada, false caso contrário
+        const result = await this.#banco.ExecutaComandoNonQuery(sql, params);
+
+        // Retorna true (usuário encontrado e deletado) ou false (usuário não existia)
+        return result;
     }
 
-    alterar(entidadeAtualizada) {
-        for(let i = 0; i<usuario.lenght; i++) {
-            if(usuarios[i].id == entidadeAtualizada.id) {
-                usuarios[i] = entidadeAtualizada;
-            }
-        }
+    // Atualiza os dados de um usuário no banco
+    async alterar(entiAtualizada) {
+        // Comando SQL para atualizar os campos do usuário
+        const sql = `update tb_usuario set usu_nome = ?, 
+                                            usu_email =?,
+                                            usu_senha= ?, 
+                                            usu_ativo= ?,
+                                            per_id = ?
+                    where usu_id = ?`
+
+        // Array com os valores que vão substituir os "?" da query
+        // Eles vêm do objeto Usuario recebido como parâmetro (entiAtualizada)
+        const params = [entiAtualizada.nome,
+                            entiAtualizada.email,
+                            entiAtualizada.senha, 
+                            entiAtualizada.ativo, 
+                            entiAtualizada.perfil.id,
+                            entiAtualizada.id   // usado no WHERE para saber qual usuário alterar
+        ];
+        const result = await this.#banco.ExecutaComandoNonQuery(sql, params);
+
+        return result;
     }
+
+    toMap(row) {
+        // Cria uma nova instância da entidade Usuario vazia
+        let usuario = new Usuario();
+
+        // Mapeia os campos da linha (row) para os atributos da entidade
+        usuario.id = row["usu_id"];
+        usuario.nome = row["usu_nome"];
+        usuario.email = row["usu_email"];
+        usuario.senha = row["usu_senha"];
+        usuario.ativo = row["usu_ativo"];
+        // Cria um objeto Perfil associado ao usuário, com base no per_id vindo do banco
+        usuario.perfil = new Perfil(row ["per_id"]);
+        // Se a consulta também trouxe a descrição do perfil (JOIN com tb_perfil),
+        // atribui esse valor ao objeto perfil
+        if(row["per_descricao"]) {
+            usuario.perfil.descricao = row["per_descricao"];
+        }
+
+        // Retorna o objeto Usuario completo, pronto para ser usado na aplicação
+        return usuario;
+    }
+
 }
