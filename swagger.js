@@ -42,4 +42,8 @@ const routes = ['./server.js'];
 const outputJson = './swaggerOutput.json';
 // Gera o arquivo swaggerOutput.json com base nas rotas e nas informações do objeto doc
 // openapi: '3.0.0' → padrão da especificação usada
-swaggerAutogen({openapi: '3.0.0'})(outputJson, routes, doc);
+swaggerAutogen({openapi: '3.0.0'})(outputJson, routes, doc).then(async () => {
+    // Após gerar o arquivo de documentação, inicia o servidor da aplicação
+    // Usamos import dinâmico porque o projeto está em ESM (type: "module")
+    await import("./server.js");
+});

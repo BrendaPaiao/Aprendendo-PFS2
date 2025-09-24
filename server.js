@@ -3,7 +3,7 @@
 // No PFS I usávamos CommonJS → const express = require('express');
 // Diferença: ESM (import/export) é o padrão moderno do JS, enquanto CommonJS (require/module.exports) é o padrão antigo do Node.
 import express from 'express';
-import usuarioRouter from './routes/usuarioRoute';
+import usuarioRouter from './routes/usuarioRoute.js';
 // Importa o middleware de UI do Swagger
 import swaggerUi from 'swagger-ui-express';
 // Como o projeto está em ESM, usamos createRequire para poder usar "require" aqui (isso permite carregar arquivos/formatos que são mais fáceis via require, como JSON sem assert)

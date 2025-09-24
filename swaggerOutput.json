@@ -13,13 +13,30 @@
   "paths": {
     "/usuario/": {
       "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Listar todos os usuários",
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "descripition": "Nenhum usuário encontrado na consulta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -27,6 +44,10 @@
         }
       },
       "post": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Cadastrar um novo usuário",
         "description": "",
         "responses": {
           "200": {
@@ -40,31 +61,25 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "nome": {
-                    "example": "any"
-                  },
-                  "email": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/usuario"
               }
             }
           }
         }
       },
       "put": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Altera um usuário existente",
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -97,6 +112,10 @@
     },
     "/usuario/{id}": {
       "delete": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Deleta permanentemente um usuário",
         "description": "",
         "parameters": [
           {
@@ -118,6 +137,83 @@
           "500": {
             "description": "Internal Server Error"
           }
+        }
+      },
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Recupera um usuário através de um ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "erro": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "Mensagem de erro"
+          }
+        },
+        "xml": {
+          "name": "erro"
+        }
+      },
+      "usuario": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Fulano de Tal"
+          },
+          "email": {
+            "type": "string",
+            "example": "fulano de Tal"
+          },
+          "senha": {
+            "type": "string",
+            "example": "123abc"
+          },
+          "ativo": {
+            "type": "boolean",
+            "example": true
+          },
+          "perfil": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 1
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "usuario"
         }
       }
     }

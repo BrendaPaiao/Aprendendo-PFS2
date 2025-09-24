@@ -7,12 +7,17 @@ let ctrl =  new UsuarioController();
 // Rota GET /usuarios → chama o método listar do controller
 router.get("/", (req, res) => {
     
-    // #swagger.tags = ['Usuários']     // Agrupa a rota na aba "Usuário" do Swagger
-    // #swagger.summary = 'Listar todos os usuários'      // Título curto da operação
+    // Agrupa a rota na aba "Usuário" do Swagger
+    // Título curto da operação
+    // Define a resposta HTTP 404 desta rota
+    // Usa o schema "erro" (definido em components)
 
-    /* #swagger.responses[404] = {      // Define a resposta HTTP 404 desta rota
+    // #swagger.tags = ['Usuários']     
+    // #swagger.summary = 'Listar todos os usuários'      
+
+    /* #swagger.responses[404] = {      
         descripition: 'Nenhum usuário encontrado na consulta',
-        schema: { $ref: '#/components/schemas/erro'}       // Usa o schema "erro" (definido em components)
+        schema: { $ref: '#/components/schemas/erro'}       
     }
     */
     ctrl.listar(req, res);
@@ -20,15 +25,19 @@ router.get("/", (req, res) => {
 // Rota POST /usuarios → chama o método cadastrar do controller
 router.post("/", (req, res) => {
 
+    // O corpo da requisição é obrigatório
+    // Tipo de conteúdo esperado
+    // Usa o schema "usuario" definido em components
+
     // #swagger.tags = ['Usuários']
     // #swagger.summary = 'Cadastrar um novo usuário'
 
     /* #swagger.requestBody = {
-        required: true,     // O corpo da requisição é obrigatório
+        required: true,     
         content: {
-            "application/json": {       // Tipo de conteúdo esperado
+            "application/json": {       
                 schema: { 
-                    $ref: '#/components/schemas/usuario'    // Usa o schema "usuario" definido em components
+                    $ref: '#/components/schemas/usuario'    
                 }
             }
         }
