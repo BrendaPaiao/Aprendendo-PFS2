@@ -6,6 +6,7 @@ import express from 'express';
 import usuarioRouter from './routes/usuarioRoute.js';
 import imovelRouter from './routes/imovelRoute.js';
 import authRouter from './routes/authRoute.js';
+import locacaoRouter from './routes/locacaoRoute.js';
 // Importa o middleware de UI do Swagger
 import swaggerUi from 'swagger-ui-express';
 // Como o projeto está em ESM, usamos createRequire para poder usar "require" aqui (isso permite carregar arquivos/formatos que são mais fáceis via require, como JSON sem assert)
@@ -22,6 +23,7 @@ server.use("/docs", swaggerUi.serve, swaggerUi.setup(outputJson));
 server.use("/usuario", usuarioRouter);
 server.use("/imovel", imovelRouter);
 server.use("/autenticacao", authRouter);
+server.use("/locacao", locacaoRouter);
 
 server.listen(5000, function() {
     console.log("Backend em funcionamento!");

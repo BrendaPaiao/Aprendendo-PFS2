@@ -41,6 +41,12 @@ const doc = {
                 valor: 850.60,
                 disponivel: "S"
             }
+        },
+        securitySchemes: {
+            bearerAuth: {
+                type: 'http',
+                scheme: 'bearer'
+            }
         }
     }
 }
