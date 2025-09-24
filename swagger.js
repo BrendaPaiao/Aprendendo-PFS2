@@ -22,6 +22,7 @@ const doc = {
             // Schema "usuario": descreve a estrutura de um objeto usuário
             usuario: {
                 // Exemplo de como um usuário pode ser enviado/recebido pela API
+                id: 999,
                 nome: "Fulano de Tal",
                 email: "fulano de Tal",
                 senha: "123abc",

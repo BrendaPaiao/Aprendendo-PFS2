@@ -14,7 +14,7 @@
     "/usuario/": {
       "get": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Listar todos os usuários",
         "description": "",
@@ -23,8 +23,7 @@
             "description": "OK"
           },
           "404": {
-            "description": "Not Found",
-            "descripition": "Nenhum usuário encontrado na consulta",
+            "description": "Nenhum usuário encontrado na consulta",
             "content": {
               "application/json": {
                 "schema": {
@@ -45,7 +44,7 @@
       },
       "post": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Cadastrar um novo usuário",
         "description": "",
@@ -73,13 +72,16 @@
       },
       "put": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Altera um usuário existente",
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -89,21 +91,11 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "example": "any"
-                  },
-                  "nome": {
-                    "example": "any"
-                  },
-                  "email": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/usuario"
               }
             }
           }
@@ -113,7 +105,7 @@
     "/usuario/{id}": {
       "delete": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Deleta permanentemente um usuário",
         "description": "",
@@ -141,7 +133,7 @@
       },
       "get": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Recupera um usuário através de um ID",
         "description": "",
@@ -186,6 +178,10 @@
       "usuario": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "number",
+            "example": 999
+          },
           "nome": {
             "type": "string",
             "example": "Fulano de Tal"
