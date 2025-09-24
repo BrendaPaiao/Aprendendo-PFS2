@@ -14,7 +14,7 @@
     "/usuario/": {
       "get": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Listar todos os usuários",
         "description": "",
@@ -45,7 +45,7 @@
       },
       "post": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Cadastrar um novo usuário",
         "description": "",
@@ -73,7 +73,7 @@
       },
       "put": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Altera um usuário existente",
         "description": "",
@@ -103,7 +103,7 @@
     "/usuario/{id}": {
       "delete": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Deleta permanentemente um usuário",
         "description": "",
@@ -131,7 +131,7 @@
       },
       "get": {
         "tags": [
-          "Usuários"
+          "Usuário"
         ],
         "summary": "Recupera um usuário através de um ID",
         "description": "",
