@@ -16,6 +16,20 @@ export default class UsuarioRepository {
         this.#banco = new Database();
     }
 
+    async validarAcesso(email, senha) {
+
+        const sql = "select * from tb_usuario where usu_email = ? and usu_senha = ?";
+        const params = [email, senha];
+
+        const row = await this.#banco.ExecutaComando(sql, params);
+
+        if(row.length > 0) {
+            return this.toMap(row[0]);
+        }
+
+        return null;
+    }
+
     //// Busca um usuário no banco de dados pelo id
     async buscarPorId(id) {
         // Comando SQL para selecionar o usuário cujo id corresponde ao informado
