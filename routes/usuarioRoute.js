@@ -11,8 +11,7 @@ router.post("/", ctrl.cadastrar);
 // Rota PUT /usuarios → chama o método atualizar do controller
 router.put("/", ctrl.atualizar);
 // Rota DELETE /usuarios/:id → chama o método deletar do controller
-// OBS: deve ficar por último, porque se vier antes pode "interceptar"
-// outras rotas parecidas (como /usuarios/algumaCoisa) e causar erro.
+// OBS: deve ficar por último, porque se vier antes pode "interceptar" rotas parecidas (como /usuarios/algumaCoisa) e causar erro.
 router.delete("/:id", ctrl.deletar);
 
 //Exporta o router como exportação padrão deste módulo.
