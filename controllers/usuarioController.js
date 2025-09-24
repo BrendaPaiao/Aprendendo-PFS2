@@ -1,17 +1,32 @@
 //Sempre colocar o .js no final do arquivo importado
-import Usuario from "../entities/usuarioEntity.js";
+import Perfil from "../entities/perfil.js";
+import Usuario from "../entities/usuario.js";
 import UsuarioRepository from "../repositories/usuarioRepository.js";
 
 export default class UsuarioController {
 
-    listar(req, res) {
+    #repositorio;
+
+    constructor() {
+        // Cria uma instância do repositório de usuários
+        this.#repositorio = new UsuarioRepository();
+
+        // Caso seja necessário, aqui também poderiam ser criados
+        // outros repositórios (ex.: ProdutoRepository, PedidoRepository, etc.)
+        // para que este service/controller possa trabalhar com mais entidades.
+    }
+
+    async listar(req, res) {
+
+        // Mostra no console os parâmetros recebidos na query string da URL
+        // Exemplo: GET /usuarios?ativo=1&perfil=admin
+        // req.query = { ativo: "1", perfil: "admin" }
+        //console.log(req.query);
 
         // Se alguma linha dentro do try falhar (ex.: erro de banco de dados), a execução é desviada automaticamente para o catch.
         try {
-            //Cria uma instância do repositório de usuários
-            let usuRepo = new UsuarioRepository();
             //Chama o método listar() do repositório para buscar os usuários
-            let lista = usuRepo.listar();
+            let lista = await this.#repositorio.listar();
             //Se a lista tiver usuários, devolve a resposta em JSON com status 200 (OK)
             if(lista.length > 0) 
                 res.status(200).json(lista);
@@ -24,23 +39,20 @@ export default class UsuarioController {
             // Se ocorrer qualquer erro inesperado durante o processamento, mostra no console para debug
             console.log(exception);
             // Retorna erro 500 (Internal Server Error) para o cliente
-            res.status(500).json({msg: "Erro ao processar requisiçaõ"});
+            res.status(500).json({msg: "Erro ao processar requisição"});
         }   
     }
 
-    cadastrar(req, res) {
+    async cadastrar(req, res) {
         try {
             // Recupera as informações do usuário enviadas no corpo da requisição (JSON do cliente)
-            let {nome, email} = req.body;
+            let {nome, email, senha, ativo, perfil} = req.body;
             // Verifica se nome e email existem (não estão undefined ou vazios)
-            if(nome && email) {
-                 // Date.now() gera um número baseado no horário atual
-                // Aqui é usado apenas como id temporário (simulando o id que viria do banco)
-                let entidade = new Usuario(Date.now(), nome, email);
-                // Cria uma instância do repositório para interagir com a "base"
-                let usuRepo = new UsuarioRepository();
+            if(nome && email && senha && ativo && perfil.id) {
+
+                let entidade = new Usuario(0, nome, email, senha, ativo, new Perfil(perfil.id));
                 // Chama o método cadastrar() do repositório passando a entidade
-                let inseriu = usuRepo.cadastrar(entidade);
+                let inseriu = await this.#repositorio.cadastrar(entidade);
                 if(inseriu == true) {
                     return res.status(200).json({msg: "Usuário cadastrado com sucesso"});
                 }
@@ -65,14 +77,12 @@ export default class UsuarioController {
 
     deletar(req, res) {
         try {
-            // Recupera o parâmetro "id" da URL (ex.: DELETE /usuarios/5)
+            // Recupera o parâmetro "id" da URL (ex.: DELETE /usuario/5)
             let {id} = req.params;
-            // Cria uma instância do repositório de usuários
-            let usuRepo = new UsuarioRepository();
             // Verifica se o usuário existe antes de tentar deletar
-            if(usuRepo.buscarPorId(id)) {
+            if(this.#repositorio.buscarPorId(id)) {
                 // Se existir, chama o método deletar() no repositório
-                usuRepo.deletar(id);
+                this.#repositorio.deletar(id);
 
                 return res.status(200).json({msg: "Usuário excluído com sucesso!"});
             }
@@ -89,21 +99,18 @@ export default class UsuarioController {
 
     atualizar(req, res) {
         try{
-            
             // Recupera os dados enviados no corpo da requisição
             // O cliente precisa enviar id, nome e email
             let {id, nome, email} = req.body;
 
             // Verifica se todos os campos necessários foram informados
             if(id && nome && email) {
-                // Cria uma instância do repositório de usuários
-                let repositorio =  new UsuarioRepository();
                 // Verifica se o usuário existe no "banco" antes de alterar
-                if(repositorio.buscarPorId(id)) {
+                if(this.#repositorio.buscarPorId(id)) {
                     // Cria uma nova entidade Usuario com os dados recebidos
                     let entidade = new Usuario(id, nome, email);
                     // Chama o método alterar() do repositório para atualizar os dados
-                    repositorio.alterar(entidade);
+                    this.#repositorio.alterar(entidade)
                     res.status(200).json({msg: "Usuário alterado!"});
                 }
                 else {
@@ -120,6 +127,5 @@ export default class UsuarioController {
             return res.status(500).json({msg: exception.message});
         }
     }
-
 
 }
