@@ -13,6 +13,8 @@ const require = createRequire(import.meta.url);
 const outputJson = require('./swaggerOutput.json');
 const server = express();
 
+server.use(express.json());
+
 // Registra a rota /docs para servir a interface do Swagger com o JSON acima
 server.use("/docs", swaggerUi.serve, swaggerUi.setup(outputJson));
 server.use("/usuario", usuarioRouter);

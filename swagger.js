@@ -24,7 +24,7 @@ const doc = {
                 // Exemplo de como um usuário pode ser enviado/recebido pela API
                 id: 999,
                 nome: "Fulano de Tal",
-                email: "fulano de Tal",
+                email: "fulano@unoeste.br",
                 senha: "123abc",
                 ativo: true,    // indica se o usuário está ativo (true/false)
                 perfil: {

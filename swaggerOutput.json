@@ -14,7 +14,7 @@
     "/usuario/": {
       "get": {
         "tags": [
-          "Usuário"
+          "Usuários"
         ],
         "summary": "Listar todos os usuários",
         "description": "",
@@ -23,7 +23,8 @@
             "description": "OK"
           },
           "404": {
-            "description": "Nenhum usuário encontrado na consulta",
+            "description": "Not Found",
+            "descripition": "Nenhum usuário encontrado na consulta",
             "content": {
               "application/json": {
                 "schema": {
@@ -44,7 +45,7 @@
       },
       "post": {
         "tags": [
-          "Usuário"
+          "Usuários"
         ],
         "summary": "Cadastrar um novo usuário",
         "description": "",
@@ -72,16 +73,13 @@
       },
       "put": {
         "tags": [
-          "Usuário"
+          "Usuários"
         ],
         "summary": "Altera um usuário existente",
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -105,7 +103,7 @@
     "/usuario/{id}": {
       "delete": {
         "tags": [
-          "Usuário"
+          "Usuários"
         ],
         "summary": "Deleta permanentemente um usuário",
         "description": "",
@@ -133,7 +131,7 @@
       },
       "get": {
         "tags": [
-          "Usuário"
+          "Usuários"
         ],
         "summary": "Recupera um usuário através de um ID",
         "description": "",
@@ -188,7 +186,7 @@
           },
           "email": {
             "type": "string",
-            "example": "fulano de Tal"
+            "example": "fulano@unoeste.br"
           },
           "senha": {
             "type": "string",
