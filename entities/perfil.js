@@ -24,11 +24,5 @@ export default class Perfil {
         this.#id = id;
         this.#descricao = descricao; 
     }
-
-    toJSON() {
-        return {
-            id: this.#id,
-            descricao: this.#descricao
-        }
-    }
+    
 }

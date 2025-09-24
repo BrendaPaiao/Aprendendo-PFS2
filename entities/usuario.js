@@ -72,13 +72,13 @@ export default class Usuario {
     //Define quais atributos serão retornados quando o objeto for convertido em JSON.
     //Ex.: evita expor dados sensíveis como 'senha'.
     //Nesse caso, só 'nome' e 'email' serão incluídos no retorno.
-    toJSON() {
-        return {
-            id: this.#id,
-            nome: this.#nome,
-            email: this.#email,
-            ativo: this.#ativo,
-            perfil: this.#perfil
-        }
-    }
+    // toJSON() {
+    //     return {
+    //         id: this.#id,
+    //         nome: this.#nome,
+    //         email: this.#email,
+    //         ativo: this.#ativo,
+    //         perfil: this.#perfil
+    //     }
+    // }
 }
