@@ -24,8 +24,48 @@ export default class AuthMiddleware {
             // Retorna o token gerado para ser enviado ao cliente
             return jsonwebtoken;
     }
-
-    validarToken() {
+    // Middleware responsável por validar o token JWT e garantir que o usuário está logado
+    async validarToken(req, res, next) {
         
+        // Verifica se existe um cabeçalho "Authorization" na requisição
+        if(req.headers.authorization) {
+            // Remove a palavra "Bearer " e deixa apenas o token
+            let token = req.headers.authorization.replace("Bearer ", "");
+            
+            try {
+                // Valida o token usando a chave secreta e recupera os dados gravados no payload
+                let payload = jwt.verify(token, SECRET);
+                // Cria uma instância do repositório de usuários
+                let usuarioRepository = new UsuarioRepository();
+                // Busca o usuário no banco pelo id que veio no payload do token
+                let usuario = await usuarioRepository.buscarPorId(payload.id);
+                if(usuario) {
+                    // Se o usuário existe, verifica se está ativo
+                    if(usuario.ativo) {
+                        // Anexa o usuário logado ao objeto req (fica disponível nas próximas rotas)
+                        req.usuarioLogado = usuario;
+                        // Chama o próximo middleware ou controller
+                        next();
+                    }
+                    else {
+                        // Se o usuário existe mas está inativo → não pode acessar
+                        return res.status(401).json({msg: "Usuário inativo"});
+                    }
+                }
+                else {
+                    // Se não encontrou o usuário no banco
+                    return res.status(404).json({msg: "Usuário não encontrado"});
+                }
+            }
+            catch(exception) {
+                // Se o token for inválido ou expirado
+                console.log(exception)
+                return res.status(401).json({msg: "Token inválido!"});
+            }
+        }
+        else {
+            // Se não tiver cabeçalho Authorization
+            return res.status(401).json({msg: "Token não encontrado!"});
+        }
     }
 }
