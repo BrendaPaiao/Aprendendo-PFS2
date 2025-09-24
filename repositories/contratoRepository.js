@@ -4,6 +4,10 @@ export default class ContratoRepository {
 
     #banco;
 
+    set banco(value) {
+        this.#banco = value;
+    }
+
     constructor() {
         this.#banco = new Database();
     }

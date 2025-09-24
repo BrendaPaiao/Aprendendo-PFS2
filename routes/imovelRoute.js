@@ -5,14 +5,20 @@ const router = express.Router();
 
 let ctrl = new ImovelController();
 router.get("/", (req, res) => {
-
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
     // #swagger.tags = ['Imóvel']
     // #swagger.summary = 'Lista todos os imóveis cadastrados'
     ctrl.listar(req, res);
 })
 
 router.post("/", (req, res) => {
-
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
     // #swagger.tags = ['Imóvel']
     // #swagger.summary = 'Cadastra um novo imóvel'
     /* #swagger.requestBody = {
@@ -30,7 +36,10 @@ router.post("/", (req, res) => {
 })
 
 router.put("/", (req, res) => {
-
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
     // #swagger.tags = ['Imóvel']
     // #swagger.summary = 'Altera um imóvel existente'
     /* #swagger.requestBody = {
@@ -48,17 +57,22 @@ router.put("/", (req, res) => {
 })
 
 router.delete("/:id", (req, res) => {
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
     // #swagger.tags = ['Imóvel']
     // #swagger.summary = 'Exclui um imóvel existente'
-
     ctrl.deletar(req, res);
 })
 
 router.get("/:id", (req, res) => {
-
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
     // #swagger.tags = ['Imóvel']
     // #swagger.summary = 'Busca um imóvel pelo id'
-
     ctrl.obterPorId(req, res);
 })
 

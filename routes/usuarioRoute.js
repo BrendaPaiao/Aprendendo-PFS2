@@ -15,6 +15,11 @@ router.get("/", (req, res) => {
     // #swagger.tags = ['Usuário']     
     // #swagger.summary = 'Listar todos os usuários'      
 
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
+
     /* #swagger.responses[404] = {      
         description: 'Nenhum usuário encontrado na consulta',
         schema: { $ref: '#/components/schemas/erro'}       
@@ -29,6 +34,10 @@ router.post("/", (req, res) => {
     // Tipo de conteúdo esperado
     // Usa o schema "usuario" definido em components
 
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
     // #swagger.tags = ['Usuário']
     // #swagger.summary = 'Cadastrar um novo usuário'
 
@@ -48,6 +57,10 @@ router.post("/", (req, res) => {
 // Rota PUT /usuarios → chama o método atualizar do controller
 router.put("/", (req, res) => {
 
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
     // #swagger.tags = ['Usuário']
     // #swagger.summary = 'Altera um usuário existente'
         /* #swagger.requestBody = {
@@ -66,13 +79,19 @@ router.put("/", (req, res) => {
 // Rota DELETE /usuarios/:id → chama o método deletar do controller
 // OBS: deve ficar por último, porque se vier antes pode "interceptar" rotas parecidas (como /usuarios/algumaCoisa) e causar erro.
 router.delete("/:id", (req, res) => {
-
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
     // #swagger.tags = ['Usuário']
     // #swagger.summary = 'Deleta permanentemente um usuário'
     ctrl.deletar(req, res);
 });
 router.get("/:id", (req, res) => {
-
+    /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+    */
     // #swagger.tags = ['Usuário']
     // #swagger.summary = 'Recupera um usuário através de um ID'
     ctrl.listar(req, res);
