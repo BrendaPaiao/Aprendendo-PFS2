@@ -44,8 +44,9 @@ const doc = {
         },
         securitySchemes: {
             bearerAuth: {
-                type: 'http',
-                scheme: 'bearer'
+                type: 'http',   // tipo de autenticação: HTTP Authentication
+                scheme: 'bearer'    // esquema de autenticação: Bearer Token
+        // bearerFormat: 'JWT'  // (opcional) informa que o token é JWT
             }
         }
     }

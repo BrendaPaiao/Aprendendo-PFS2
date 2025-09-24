@@ -1,6 +1,6 @@
-import Contrato from "../entities/contrato";
-import ContratoRepository from "../repositories/contratoRepository";
-import ImovelRepository from "../repositories/imovelRepository";
+import Contrato from "../entities/contrato.js";
+import ContratoRepository from "../repositories/contratoRepository.js";
+import ImovelRepository from "../repositories/imovelRepository.js";
 
 export default class LocacaoController {
     // Repositório de imóveis (para buscar/verificar os dados do imóvel)
