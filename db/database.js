@@ -15,9 +15,9 @@ export default class Database {
 
         this.#conexao = mysql.createPool({
             host: '132.226.245.178',     // endereço do servidor MySQL
-            database: '...',             // nome do banco
-            user: '...',                 // usuário do banco
-            password: '...',             // senha do banco
+            database: 'PFS2_106888',             // nome do banco
+            user: '106888',                 // usuário do banco
+            password: '106888',             // senha do banco
             idleTimeout: 30000,          // tempo para encerrar conexões inativas
             connectionLimit: 50          // máximo de conexões simultâneas
         });
