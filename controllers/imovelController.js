@@ -15,7 +15,7 @@ export default class ImovelController {
             if(lista.length > 0)
                 return res.status(200).json(lista);
             else
-                return res.status(404).json({msg: "Nenhum imóvel encontrado"};)
+                return res.status(404).json({msg: "Nenhum imóvel encontrado"});
         }
         catch(exception) {
             console.log(exception);
