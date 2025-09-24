@@ -30,6 +30,16 @@ const doc = {
                 perfil: {
                     id: 1   // chave que liga ao perfil (perfil_id no banco)
                 }
+            },
+            imovel: {
+                id: 999,
+                descricao: "Casa na praia",
+                cep: "19000-000",
+                endereco: "Rua dos bobos, número 0",
+                bairro: "Bairro teste",
+                cidade: "Presidente Prudente",
+                valor: 850.60,
+                disponivel: "S"
             }
         }
     }
