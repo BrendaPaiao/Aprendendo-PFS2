@@ -1,6 +1,7 @@
 //Sempre colocar o .js no final do arquivo importado
 import Perfil from "../entities/perfil.js";
 import Usuario from "../entities/usuario.js";
+import ImovelRepository from "../repositories/imovelRepository.js";
 import UsuarioRepository from "../repositories/usuarioRepository.js";
 
 export default class UsuarioController {
@@ -48,7 +49,7 @@ export default class UsuarioController {
             // Recupera as informações do usuário enviadas no corpo da requisição (JSON do cliente)
             let {nome, email, senha, ativo, perfil} = req.body;
             // Verifica se nome e email existem (não estão undefined ou vazios)
-            if(nome && email && senha && ativo && perfil.id) {
+            if(nome && email && senha && ativo && perfil && perfil.id) {
 
                 let entidade = new Usuario(0, nome, email, senha, ativo, new Perfil(perfil.id));
                 // Chama o método cadastrar() do repositório passando a entidade
@@ -75,16 +76,17 @@ export default class UsuarioController {
         }
     }
 
-    deletar(req, res) {
+    async deletar(req, res) {
         try {
             // Recupera o parâmetro "id" da URL (ex.: DELETE /usuario/5)
             let {id} = req.params;
             // Verifica se o usuário existe antes de tentar deletar
-            if(this.#repositorio.buscarPorId(id)) {
+            if(await this.#repositorio.buscarPorId(id)) {
                 // Se existir, chama o método deletar() no repositório
-                this.#repositorio.deletar(id);
-
-                return res.status(200).json({msg: "Usuário excluído com sucesso!"});
+                if(await this.#repositorio.deletar(id))
+                    return res.status(200).json({msg: "Usuário excluído com sucesso!"});
+                else
+                    throw new Error("Erro ao deletar usuário no banco de dados")
             }
             else {
                 return res.status(404).json({msg: "Usuário não encontrado para deleção"});
@@ -97,21 +99,23 @@ export default class UsuarioController {
         }
     }
 
-    atualizar(req, res) {
+    async atualizar(req, res) {
         try{
             // Recupera os dados enviados no corpo da requisição
             // O cliente precisa enviar id, nome e email
-            let {id, nome, email} = req.body;
+            let {id, nome, email, senha, ativo, perfil} = req.body;
 
             // Verifica se todos os campos necessários foram informados
-            if(id && nome && email) {
+            if(id && nome && email && senha && ativo && perfil && perfil.id) {
                 // Verifica se o usuário existe no "banco" antes de alterar
-                if(this.#repositorio.buscarPorId(id)) {
+                if(await this.#repositorio.buscarPorId(id)) {
                     // Cria uma nova entidade Usuario com os dados recebidos
-                    let entidade = new Usuario(id, nome, email);
+                    let entidade = new Usuario(id, nome, email, ativo, new Perfil(perfil.id));
                     // Chama o método alterar() do repositório para atualizar os dados
-                    this.#repositorio.alterar(entidade)
-                    res.status(200).json({msg: "Usuário alterado!"});
+                    if(await this.#repositorio.alterar(entidade))
+                        res.status(200).json({msg: "Usuário alterado!"});
+                    else
+                        throw new Error("Erro ao alterar usuário no banco de dados");
                 }
                 else {
                     res.status(404).json({msg: "Usuário não encontrado para alteração"});
@@ -128,4 +132,19 @@ export default class UsuarioController {
         }
     }
 
+    async obterPorId(req, res) {
+        try {
+            let {id} = req.params;
+            let usuario = await this.#repositorio.buscarPorId(id);
+            if(usuario) {
+                return res.status(200).json(usuario);
+            }
+            else
+                return res.status(404).json({msg: "Usuário não encontrado!"});
+        }
+        catch(exception) {
+            console.log(exception);
+            return res.status(500).json({msg: exception.message});
+        }
+    }
 }
