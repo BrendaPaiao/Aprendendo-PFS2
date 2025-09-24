@@ -11,6 +11,26 @@ const doc = {
         title: "API REST - PFS2",
         //Descrição exibida no Swagger
         description: "API REST para a construção do backend na disciplina de PFS2"
+    },
+    components: {
+        schemas: {
+            // Schema "erro": usado para padronizar as respostas de erro da API
+            erro: {
+                // Exemplo de corpo de resposta que o cliente vai receber em caso de erro
+                msg: 'Mensagem de erro'
+            },
+            // Schema "usuario": descreve a estrutura de um objeto usuário
+            usuario: {
+                // Exemplo de como um usuário pode ser enviado/recebido pela API
+                nome: "Fulano de Tal",
+                email: "fulano de Tal",
+                senha: "123abc",
+                ativo: true,    // indica se o usuário está ativo (true/false)
+                perfil: {
+                    id: 1   // chave que liga ao perfil (perfil_id no banco)
+                }
+            }
+        }
     }
 }
 
